@@ -168,7 +168,6 @@ static int is_correcting;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
 #pragma mark -UITableView 协议
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

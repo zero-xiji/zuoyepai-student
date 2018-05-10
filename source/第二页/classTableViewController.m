@@ -26,8 +26,9 @@ static int is_first_appear;
     _search_putin=@"_";
     [self initdata];
     self.tableView.dataSource=self;
+    self.tableView.delegate=self;
     self.tableView.tableFooterView = [[UIView alloc] init];
-
+    [self setupRefresh];
     [self set_seartBar];
     //    [self.view addSubview:_SearchBar];
     [self.tableView setTableHeaderView:_SearchBar];
@@ -117,6 +118,29 @@ static int is_first_appear;
     [self.view endEditing:YES];
 }
 
+
+-(void)setupRefresh
+{
+    //1.添加刷新控件
+    UIRefreshControl *control=[[UIRefreshControl alloc]init];
+    [control addTarget:self action:@selector(refreshStateChange:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:control];
+    
+    //2.马上进入刷新状态，并不会触发UIControlEventValueChanged事件
+    [control beginRefreshing];
+    
+    // 3.加载数据
+    [self refreshStateChange:control];
+}
+/**
+ *  UIRefreshControl进入刷新状态：加载最新的数据
+ */
+-(void)refreshStateChange:(UIRefreshControl *)control
+{
+    [self initdata];
+    [self.tableView reloadData];
+    [control endRefreshing];
+}
 
 #pragma mark - Table view data source
 

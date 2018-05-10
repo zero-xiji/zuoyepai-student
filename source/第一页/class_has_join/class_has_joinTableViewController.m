@@ -21,24 +21,35 @@ static int is_first_appear;
     [super viewDidLoad];
     //only set the line when the cell is not null
     self.tableView.tableFooterView = [[UIView alloc] init];
+    this_tableView.delegate=self;
+    this_tableView.dataSource=self;
     this_tableView=[[UITableView alloc] initWithFrame:self.tableView.frame];
     this_tableView.frame = self.tableView.bounds;
     is_first_appear=0;
-//    if(![this_user_.THIS_USER_IS_LOGIN isEqual:@"1"])
-//    {
-//        NSLog(@"you are not login");
-//    }
-//    else
-//    {
-//        [self initdata];
-//        self.tableView.dataSource=self;
-//    }
+    [self setupRefresh];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    is_first_appear++;
+    if(is_first_appear>1)
+    {
+        if(![this_user_.THIS_USER_IS_LOGIN isEqual:@"1"])
+        {
+            NSLog(@"you are not login");
+            _dataSource=NULL;
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self initdata];
+            [self.tableView reloadData];
+        }
+    }
+}
 - (void)initdata {
     _dataSource =[NSMutableArray new];
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:@"http://193.112.2.154:7079/SSHtet/select_student_class?operate=select&put_in=%@",this_user_.THIS_STUDENT_USER_ID]];
@@ -72,6 +83,42 @@ static int is_first_appear;
                                                      teacher_id:[class_detial objectAtIndex:9]];
 }
 
+#pragma -下拉刷新
+-(void)setupRefresh
+{
+    //1.添加刷新控件
+    UIRefreshControl *control=[[UIRefreshControl alloc]init];
+    [control addTarget:self action:@selector(refreshStateChange:) forControlEvents:UIControlEventValueChanged];
+    [this_tableView addSubview:control];
+    
+    //2.马上进入刷新状态，并不会触发UIControlEventValueChanged事件
+    [control beginRefreshing];
+    
+    // 3.加载数据
+    [self refreshStateChange:control];
+}
+-(void)refreshStateChange:(UIRefreshControl *)control
+{
+    [self initdata];
+    [this_tableView reloadData];
+    [control endRefreshing];
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _dataSource.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    classTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"the_class_i'm_in" forIndexPath:indexPath];
+    cell.model=self.dataSource[indexPath.row];
+    return cell;
+}
+
 //实现右滑动删除
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
@@ -83,18 +130,18 @@ static int is_first_appear;
         //alert to make sure user want to exit this class
         UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"提示" message:@"确定要退出该班级吗？" preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-        {
-            //delete from database in mysql
-            [self url_to_exit:this_cell.model.class_id];
-            ///< delete this rows
-            [_dataSource removeObjectAtIndex:indexPath.row];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        }]];
+                          {
+                              //delete from database in mysql
+                              [self url_to_exit:this_cell.model.class_id];
+                              ///< delete this rows
+                              [_dataSource removeObjectAtIndex:indexPath.row];
+                              [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                          }]];
         [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }]];
         [self presentViewController:alert animated:true completion:nil];
-
+        
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
@@ -118,58 +165,24 @@ static int is_first_appear;
     [self presentViewController:alert animated:true completion:nil];
 }
 
- //send block to else
- -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
- {
- 
-     classTableViewCell *this_cell=[tableView cellForRowAtIndexPath:indexPath];
-     select_class_cell.class_name=this_cell.class_name.text;
-     select_class_cell.class_id=this_cell.model.class_id;
-     select_class_cell.course_name=this_cell.model.course_name;
-//     select_class_cell.THIS_TEACHER_USER_ID=this_cell.mo
-     //self.block(class_cell_value);
-     //self.block(_dataSource[indexPath.row]);
-//     [self.navigationController popViewControllerAnimated:YES];
-//     __weak typeof(self) weakself = self;
-//     if (weakself.returnValueBlock) {
-//         //将自己的值传出去，完成传值
-//         weakself.returnValueBlock(class_cell_value);
-//     }
-//     [self.navigationController popViewControllerAnimated:YES];
- }
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _dataSource.count;
-}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    classTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"the_class_i'm_in" forIndexPath:indexPath];
-    cell.model=self.dataSource[indexPath.row];
-    return cell;
-}
-
--(void)viewWillAppear:(BOOL)animated
+//send block to else
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    is_first_appear++;
-    if(is_first_appear>1)
-    {
-        if(![this_user_.THIS_USER_IS_LOGIN isEqual:@"1"])
-        {
-            NSLog(@"you are not login");
-            _dataSource=NULL;
-            [self.tableView reloadData];
-        }
-        else
-        {
-            [self initdata];
-            [self.tableView reloadData];
-        }
-    }
+    
+    classTableViewCell *this_cell=[tableView cellForRowAtIndexPath:indexPath];
+//    select_class_cell.class_name=this_cell.class_name.text;
+//    select_class_cell.class_id=this_cell.model.class_id;
+//    select_class_cell.course_name=this_cell.model.course_name;
+    //     select_class_cell.THIS_TEACHER_USER_ID=this_cell.mo
+    //self.block(class_cell_value);
+    //self.block(_dataSource[indexPath.row]);
+    //     [self.navigationController popViewControllerAnimated:YES];
+    //     __weak typeof(self) weakself = self;
+    //     if (weakself.returnValueBlock) {
+    //         //将自己的值传出去，完成传值
+    //         weakself.returnValueBlock(class_cell_value);
+    //     }
+    //     [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

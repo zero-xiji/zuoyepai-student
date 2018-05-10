@@ -19,6 +19,8 @@ static file_in_class *this_file_message;
     [super viewDidLoad];
     _file_table.tableFooterView = [[UIView alloc] init];
     _file_table.dataSource=self;
+    _file_table.dataSource=self;
+    [self setupRefresh];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -71,6 +73,27 @@ static file_in_class *this_file_message;
                                                course_name:select_class_cell.course_name
                                                 who_upload:[file_detial objectAtIndex:2]
                                                time_upload:@""];
+}
+
+#pragma -下拉刷新
+-(void)setupRefresh
+{
+    //1.添加刷新控件
+    UIRefreshControl *control=[[UIRefreshControl alloc]init];
+    [control addTarget:self action:@selector(refreshStateChange:) forControlEvents:UIControlEventValueChanged];
+    [_file_table addSubview:control];
+    
+    //2.马上进入刷新状态，并不会触发UIControlEventValueChanged事件
+    [control beginRefreshing];
+    
+    // 3.加载数据
+    [self refreshStateChange:control];
+}
+-(void)refreshStateChange:(UIRefreshControl *)control
+{
+    [self initdata];
+    [_file_table reloadData];
+    [control endRefreshing];
 }
 
 #pragma mark -UITableView 协议

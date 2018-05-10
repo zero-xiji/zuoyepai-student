@@ -36,7 +36,6 @@
 		DABCE4F4203FF671006432B5 /* registerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABCE4F3203FF671006432B5 /* registerViewController.m */; };
 		DABCE50220400764006432B5 /* mainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABCE50120400764006432B5 /* mainViewController.m */; };
 		DABCE5222040212B006432B5 /* myViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABCE5212040212B006432B5 /* myViewController.m */; };
-		DABE09552087564300141546 /* about_class_has_joinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABE09542087564300141546 /* about_class_has_joinViewController.m */; };
 		DABE0959208763DE00141546 /* MHRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DABE0958208763DE00141546 /* MHRadioButton.m */; };
 		DAEFA5132088CF1900F20E6E /* RadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEFA5122088CF1900F20E6E /* RadioButton.m */; };
 		F98F1F542084E3700051E2D4 /* questionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F98F1F4C2084E3700051E2D4 /* questionListViewController.m */; };
@@ -120,8 +119,6 @@
 		DABCE50120400764006432B5 /* mainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mainViewController.m; sourceTree = "<group>"; };
 		DABCE5202040212B006432B5 /* myViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myViewController.h; sourceTree = "<group>"; };
 		DABCE5212040212B006432B5 /* myViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = myViewController.m; sourceTree = "<group>"; };
-		DABE09532087564300141546 /* about_class_has_joinViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = about_class_has_joinViewController.h; sourceTree = "<group>"; };
-		DABE09542087564300141546 /* about_class_has_joinViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = about_class_has_joinViewController.m; sourceTree = "<group>"; };
 		DABE0957208763DE00141546 /* MHRadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHRadioButton.h; sourceTree = "<group>"; };
 		DABE0958208763DE00141546 /* MHRadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHRadioButton.m; sourceTree = "<group>"; };
 		DAEFA5112088CF1900F20E6E /* RadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioButton.h; sourceTree = "<group>"; };
@@ -215,8 +212,6 @@
 			children = (
 				26E74A162070F24000529D32 /* class_has_joinTableViewController.h */,
 				26E74A172070F24000529D32 /* class_has_joinTableViewController.m */,
-				DABE09532087564300141546 /* about_class_has_joinViewController.h */,
-				DABE09542087564300141546 /* about_class_has_joinViewController.m */,
 			);
 			path = class_has_join;
 			sourceTree = "<group>";
@@ -541,7 +536,6 @@
 				DA5F0DE2203F32A600F45AED /* ViewController.m in Sources */,
 				260BADF9207B55CB0066ADC1 /* homework.m in Sources */,
 				260BADF8207B55CB0066ADC1 /* homeworkViewController.m in Sources */,
-				DABE09552087564300141546 /* about_class_has_joinViewController.m in Sources */,
 				DA5F0DED203F32A600F45AED /* main.m in Sources */,
 				DABE0959208763DE00141546 /* MHRadioButton.m in Sources */,
 				2657719D20763B9900AEF2F6 /* file_in_classTableViewCell.m in Sources */,
@@ -708,6 +702,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XX677H3325;
 				INFOPLIST_FILE = "$(SRCROOT)/作业派-学生端/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ios.student-0410-2049";
@@ -721,6 +716,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XX677H3325;
 				INFOPLIST_FILE = "$(SRCROOT)/作业派-学生端/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ios.student-0410-2049";
