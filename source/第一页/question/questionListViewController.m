@@ -33,7 +33,7 @@ static int is_correcting;
 -(void)viewWillAppear:(BOOL)animated
 {
     rows=0;
-    is_correcting=0;
+    is_correcting=select_homework_cell.is_correcting.intValue;
     [self initdata];
 /*
     NSString *urlString=[NSString stringWithFormat:@"http://193.112.2.154:7079/SSHtet/select_student_homework?student_id=%@&homework_id=%@",this_user_.THIS_STUDENT_USER_ID,select_homework_cell.homework_id];
@@ -265,9 +265,20 @@ static int is_correcting;
             UIAlertAction *Btn_yes=[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
             {
                 my_answer=alert.textFields.firstObject.text;
-                [self add_my_answer_url:this_cell.model.question_id :my_answer];
-                this_cell.l_my_question_answer.text=my_answer;
-                [self question_to_replace:this_cell :my_answer :indexPath.row];
+                if(my_answer.length==0)
+                {
+                    NSLog(@"student_set_my_answer_url warning");
+                    
+                    UIAlertController *score_alert=[UIAlertController alertControllerWithTitle:@"答案不可为空!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    [score_alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
+                    [self presentViewController:score_alert animated:true completion:nil];
+                }
+                else
+                {
+                    [self add_my_answer_url:this_cell.model.question_id :my_answer];
+                    this_cell.l_my_question_answer.text=my_answer;
+                    [self question_to_replace:this_cell :my_answer :indexPath.row];
+                }
             }];
             [alert addAction:Btn_yes];
         }

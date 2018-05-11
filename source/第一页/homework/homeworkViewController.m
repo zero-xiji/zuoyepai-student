@@ -138,9 +138,6 @@ static homework *this_homework_message;
     // 3.加载数据
     [self refreshStateChange:control];
 }
-/**
- *  UIRefreshControl进入刷新状态：加载最新的数据
- */
 -(void)refreshStateChange:(UIRefreshControl *)control
 {
     [self initdata];

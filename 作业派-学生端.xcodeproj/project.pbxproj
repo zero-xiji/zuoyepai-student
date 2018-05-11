@@ -704,6 +704,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XX677H3325;
 				INFOPLIST_FILE = "$(SRCROOT)/作业派-学生端/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ios.student-0410-2049";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -718,6 +719,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XX677H3325;
 				INFOPLIST_FILE = "$(SRCROOT)/作业派-学生端/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ios.student-0410-2049";
 				PRODUCT_NAME = "$(TARGET_NAME)";
